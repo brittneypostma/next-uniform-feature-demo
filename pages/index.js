@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { CanvasClient } from '@uniformdev/canvas'
 
-export default function Home() {
+
+export default function Home({ client }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -12,6 +14,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        {/* <pre>{JSON.stringify(composition, null, 2)}</pre> */}
+        {/* rest of the stock component here */}
+
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -50,7 +55,7 @@ export default function Home() {
             </p>
           </a>
         </div>
-      </main>
+      </main >
 
       <footer className={styles.footer}>
         <a
@@ -64,6 +69,22 @@ export default function Home() {
           </span>
         </a>
       </footer>
-    </div>
+    </div >
   )
+}
+
+export async function getStaticProps() {
+  const client = await new CanvasClient({
+    apiKey: process.env.UNIFORM_API_KEY,
+    projectId: process.env.UNIFORM_PROJECT_ID,
+  });
+  console.log(client)
+  // const { composition } = await client.getCompositionBySlug({
+  //   slug: '/',
+  // });
+  return {
+    props: {
+      // composition,
+    },
+  };
 }
