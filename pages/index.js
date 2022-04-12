@@ -1,11 +1,22 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {client} from '../lib/client'
+import { client } from '../lib/client'
 import { Composition, Slot } from '@uniformdev/canvas-react';
 
+const DefaultComponent = ({ heading, subheading, link, linkText }) => {
+  return (
+    <>
+      <h1>{heading}</h1>
+      <h2>{subheading}</h2>
+    </>
+  )
+}
+
+const resolveRenderer = component => {
+  if (component.type === 'cta') return DefaultComponent
+}
+
 export default function Home({ composition }) {
-  console.log({composition})
   return (
     <div className={styles.container}>
       <Head>
@@ -15,19 +26,11 @@ export default function Home({ composition }) {
       </Head>
 
       <main className={styles.main}>
-      <Composition data={composition} resolveRenderer={() => {
-        const DefaultComponent = ({heading, subheading, link, linkText}) => {
-          return (
-            <>
-              <h1>{heading}</h1>
-              <h2>{subheading}</h2>
-            </>
-          )
-        }
-      }}>
-        <Slot name="hero" />
-      </Composition>
-      <code>{JSON.stringify(composition, null, 2)}</code>
+        {/* <Composition data={composition}> */}
+        {/* <Slot name="content" /> */}
+        {/* {JSON.stringify(composition, null, 2)} */}
+        {/* </Composition> */}
+        <code>{JSON.stringify(composition, null, 2)}</code>
 
       </main >
 
@@ -37,7 +40,7 @@ export default function Home({ composition }) {
 
 export async function getStaticProps() {
   const { composition } = await client.getCompositionBySlug({
-    slug: '/',
+    slug: 'homepage',
   });
   return {
     props: {

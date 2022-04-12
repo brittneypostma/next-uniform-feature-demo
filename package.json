@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run download:manifest && next build",
     "start": "next start",
+    "download:manifest": "uniform context manifest download --output ./lib/contextManifest.json",
     "lint": "next lint"
   },
   "dependencies": {
